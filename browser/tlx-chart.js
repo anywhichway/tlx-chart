@@ -1,4 +1,5 @@
 (function() {
+	"use strict"
 	class tlxChart extends HTMLElement {
 		static get attributes() {
 			return {
@@ -76,14 +77,11 @@
 			this.chartWrapper.draw();
 		}
 	}
-	var resolver;
-	tlxChart.loaded = new Promise((resolve,reject) => resolver = resolve);
-	document.registerTlxComponent("tlx-chart",tlxChart);
-	if(typeof(google)==="undefined" || !google.charts) {
-		document.write(`<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" onload="google.charts.load('current',{packages:['charteditor']});google.charts.setOnLoadCallback(() => resolver(true))"><` + `/script>`);
-	}
-	
 	customElements.define("tlx-chart",tlxChart);
+	tlxChart.loaded = new Promise((resolve,reject) => tlxChart.loader = resolve);
+	if(typeof(google)==="undefined" || !google.charts) {
+		document.write(`<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" onload="google.charts.load('current',{packages:['charteditor']});google.charts.setOnLoadCallback(() => tlxChart.loader(true))"><` + `/script>`);
+	}
 	
 	if(typeof(module)!=="undefined") module.exports = tlxChart;
 	if(typeof(window)!=="undefined") window.tlxChart = tlxChart;
