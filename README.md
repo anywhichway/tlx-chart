@@ -23,7 +23,7 @@ Will produce this chart:
 
 ![PieChart Example](./images/tagexample.png)
 
-You can also add event handlers. The ones below just log co-ordinates to the console. See the [TLX directives documentation](https://github.com/anywhichway/tlx#directives) for more details.
+You can also add event handlers. The ones below just log co-ordinates to the console.
 
 ```html
 <tlx-chart id="mychart" 
@@ -42,10 +42,10 @@ You can create charts from JavaScript using the factory function `tlxChart.creat
 		chartType:"PieChart",
 		chartEditable: true, 
 		chartColumns: ['Element','Percentage'],
-		chartData: [['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]
+		chartData: [['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]],
+		chartOn= {select: function() { console.log(this.getSelection())}, mouseover: (event) => console.log(event)}
 	});
 	document.body.appendChild(chart);
-	chart.render();
 ```
 
 # Release History

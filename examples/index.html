@@ -3,96 +3,49 @@
 <script src="../node_modules/tlx/browser/tlx.js"></script>
 <script src="../index.js"></script>
 
-<script>
-tlxChart.loaded.then(() => {
-	const pie = {
-			chartType:"PieChart",
-			chartColumns: ["Element","Percentage"],
-			chartData: [['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]],
-			chartOptions: {
-				legend: "left",
-				title: "Test",
-				is3D: true
-			}
-		};
-	let chart = tlxChart.create(pie);
-	document.body.appendChild(chart);
-	chart.render();
-	const bubble = {
-			chartType:"BubbleChart",
-			chartData: [
-		        ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
-		        ['CAN',    80.66,              1.67,      'North America',  33739900],
-		        ['DEU',    79.84,              1.36,      'Europe',         81902307],
-		        ['DNK',    78.6,               1.84,      'Europe',         5523095],
-		        ['EGY',    72.73,              2.78,      'Middle East',    79716203],
-		        ['GBR',    80.05,              2,         'Europe',         61801570],
-		        ['IRN',    72.49,              1.7,       'Middle East',    73137148],
-		        ['IRQ',    68.09,              4.77,      'Middle East',    31090763],
-		        ['ISR',    81.55,              2.96,      'Middle East',    7485600],
-		        ['RUS',    68.6,               1.54,      'Europe',         141850000],
-		        ['USA',    78.09,              2.05,      'North America',  307007000]
-		      ],
-			chartOptions: {
-				title: 'Correlation between life expectancy, fertility rate ' +
-	               'and population of some world countries (2010)',
-		        hAxis: {title: 'Life Expectancy'},
-		        vAxis: {title: 'Fertility Rate'},
-		        bubble: {textStyle: {fontSize: 11}},
-		        width: 900,
-		        height: 500
-			}
-		};
-	chart = tlxChart.create(bubble);
-	document.body.appendChild(chart);
-	chart.render();
-	function daysToMilliseconds(days) {
-	      return days * 24 * 60 * 60 * 1000;
-	    }
-	const gantt = {
-			chartType:"Gantt",
-			chartColumns: [
-				{type:"string",label:"Task ID"},
-				{type:'string', label:'Task Name'},
-				{type:'date', label:'Start Date'},
-				{type:'date', label:'End Date'},
-				{type:'number', label:'Duration'},
-				{type:'number', label:'Percent Complete'},
-				{type:'string', label:'Dependencies'}
-			],
-			chartData: [
-		        ['Research', 'Find sources',
-		            new Date(2015, 0, 1), new Date(2015, 0, 5), null,  100,  null],
-		           ['Write', 'Write paper',
-		            null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
-		           ['Cite', 'Create bibliography',
-		            null, new Date(2015, 0, 7), daysToMilliseconds(1), 20, 'Research'],
-		           ['Complete', 'Hand in paper',
-		            null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
-		           ['Outline', 'Outline paper',
-		            null, new Date(2015, 0, 6), daysToMilliseconds(1), 100, 'Research']
-		         ],
-			chartOptions: {
-				title: 'Correlation between life expectancy, fertility rate ' +
-	               'and population of some world countries (2010)',
-		        hAxis: {title: 'Life Expectancy'},
-		        vAxis: {title: 'Fertility Rate'},
-		        bubble: {textStyle: {fontSize: 11}},
-		        width: 900,
-		        height: 500
-			}
-		};
-	chart = tlxChart.create(gantt);
-	document.body.appendChild(chart);
-	chart.render();
-});
-
-
-</script>
 </head>
-<body onload="tlxChart.loaded.then(() => tlx.bind({})(document.getElementById('app')))">
-<div id="app" style="border: 1px solid">
-<tlx-chart id="mychart" chart-type="PieChart" chart-editable="true" chart-columns="${['Element','Percentage']}" chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}" chart-on="${{select: function() { console.log(this.getSelection())}, mouseover: (event) => console.log(event)}}"></tlx-chart>
+<body>
+<div id="charts">
+<tlx-chart chart-type="PieChart" chart-editable chart-columns="${['Element','Percentage']}" chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}" chart-on="${{select: function() { console.log(this.getSelection())}, mouseover: (event) => console.log(event)}}"></tlx-chart>
+<tlx-chart defer id="configurablechart" chart-type="${chartType}" chart-columns="${['Element','Percentage']}" chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}" chart-on="${{select: function() { console.log(this.getSelection())}, mouseover: (event) => console.log(event)}}"></tlx-chart>
+<form><select id="charttype" name="chartType"  value="${chartType}"><option>PieChart</option><option>BarChart</option></select></form>
+<tlx-chart id="bubblechart" chart-editable chart-type="${chartType}" chart-data="${chartData}" chart-options="${chartOptions}" defer></tlx-chart>
 </div>
+<script>
+
+const configurablechart = tlx.reactor({chartType:"PieChart"});
+tlx.view(document.getElementById("configurablechart"),{model:configurablechart});
+tlx.view(document.getElementById("charttype"),{model:configurablechart,linkModel:true});
+
+
+const bubblemodel = {
+		chartType:"BubbleChart",
+		chartData: [
+	        ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
+	        ['CAN',    80.66,              1.67,      'North America',  33739900],
+	        ['DEU',    79.84,              1.36,      'Europe',         81902307],
+	        ['DNK',    78.6,               1.84,      'Europe',         5523095],
+	        ['EGY',    72.73,              2.78,      'Middle East',    79716203]
+	      ],
+		chartOptions: {
+			title: 'Correlation between life expectancy, fertility rate ' +
+               'and population of some world countries (2010)',
+	        hAxis: {title: 'Life Expectancy'},
+	        vAxis: {title: 'Fertility Rate'},
+	        bubble: {textStyle: {fontSize: 11}}
+		}
+	};
+tlx.view(document.getElementById("bubblechart"),{model:bubblemodel});
+
+const chart = TlxChart.create({attributes:{
+	chartType:"BarChart",
+	chartEditable: true, 
+	chartColumns: ['Element','Percentage'],
+	chartData: [['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]],
+	chartOn: {select: function() { console.log(this.getSelection())}, mouseover: (event) => console.log(event)}
+}});
+document.getElementById("charts").appendChild(chart);
+</script>
+
 </body>
 </html>
