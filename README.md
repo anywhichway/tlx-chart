@@ -50,4 +50,6 @@ You can create charts from JavaScript using the factory function `tlxChart.creat
 
 # Release History
 
+2018-12-08 v0.0.2b Re-implemented to support most recent version of tlx.
+
 2017-12-02 v0.0.1 ALPHA Initial public release

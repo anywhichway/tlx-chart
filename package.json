@@ -1,6 +1,6 @@
 {
   "name": "tlx-chart",
-  "version": "0.0.1",
+  "version": "0.0.2b",
   "description": "",
   "engines": {},
   "license": "MIT",
@@ -38,6 +38,6 @@
     "uglify-es": "^3.2.0"
   },
   "dependencies": {
-    "tlx": "^1.0.16-b"
+    "tlx": ">=1.0.17-b"
   }
 }
