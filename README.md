@@ -48,6 +48,10 @@ You can create charts from JavaScript using the factory function `tlxChart.creat
 	document.body.appendChild(chart);
 ```
 
+# More Reading
+
+[Charts and Gauges Without JavaScript](https://medium.com/@anywhichway/html-charts-without-javascript-760a6089bb91).
+
 # Release History
 
 2018-12-08 v0.0.2b Re-implemented to support most recent version of tlx.

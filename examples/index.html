@@ -7,9 +7,32 @@
 <body>
 <div id="charts">
 <tlx-chart chart-type="PieChart" chart-editable chart-columns="${['Element','Percentage']}" chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}" chart-on="${{select: function() { console.log(this.getSelection())}, mouseover: (event) => console.log(event)}}"></tlx-chart>
-<tlx-chart defer id="configurablechart" chart-type="${chartType}" chart-columns="${['Element','Percentage']}" chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}" chart-on="${{select: function() { console.log(this.getSelection())}, mouseover: (event) => console.log(event)}}"></tlx-chart>
+<tlx-chart defer id="configurablechart" chart-type="${chartType}" chart-columns="${['Element','Percentage']}" chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}"></tlx-chart>
 <form><select id="charttype" name="chartType"  value="${chartType}"><option>PieChart</option><option>BarChart</option></select></form>
 <tlx-chart id="bubblechart" chart-editable chart-type="${chartType}" chart-data="${chartData}" chart-options="${chartOptions}" defer></tlx-chart>
+<tlx-chart chart-type="PieChart"
+	chart-columns="${['Task', 'Hours per Day']}"
+	chart-data="${[
+		  ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]]}"
+     chart-options="${{pieHole:0.4,title:'My Daily Activities'}}">
+</tlx-chart>
+<tlx-chart chart-type="Gauge" 
+	chart-columns="${['Element','Percentage']}" 
+	chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}">
+</tlx-chart>
+<tlx-chart chart-type="OrgChart"
+	chart-columns="${['Name', 'Manager', 'ToolTip']}"
+	chart-data="${[
+		  ['Mike', '', 'The President'],
+          ['Jim', 'Mike', 'VP'],
+          ['Alice', 'Mike', ''],
+          ['Bob', 'Jim', 'Bob Sponge'],
+          ['Carol', 'Bob', '']]}">
+</tlx-chart>
 </div>
 <script>
 
