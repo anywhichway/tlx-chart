@@ -1,0 +1,21 @@
+<html>
+<head>
+<script src="../node_modules/tlx/browser/tlx.js"></script>
+<script src="../index.js"></script>
+
+</head>
+<body>
+<tlx-chart id="mypie" 
+	chart-type="PieChart"
+	chart-editable 
+	chart-options="${{width:500,height:250}}" 
+	chart-columns="${['Element','Percentage']}" 
+	chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}">
+</tlx-chart>
+<tlx-chart-editor for="mypie" 
+	style="font-style:italic"
+	validate-data="data => data.reduce((accum,item) => accum += item[1],0)===1 || 'Percentage must equal 1.0'">
+</tlx-chart-editor>
+</div>
+</body>
+</html>

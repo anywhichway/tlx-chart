@@ -69,7 +69,7 @@ ComboChart,
 [Table](https://jsfiddle.net/anywhichway/x021fvtj/),
 TreeMap.
 
-`chart-editable` - A unary attribute, which if present, provides an Edit button the end user can click on to invoke an editor to change the chart type or appearance such as font labels, etc. 
+`chart-editable` - A unary attribute, which if present, provides an Edit button the end user can click on to invoke an editor to change the chart type or appearance such as font labels, etc. Note, this editor does not support changing data. Use `tlx-chart-editor` element to change data.
 
 `chart-columns` - An array of column names. The value must be inside "${ }" to tell the [`tlx`](https://github.com/anywhichway/tlx) engine to treat this as a JavaScript object, e.g. `chart-columns="${['Element','Percentage']}"`.
 
@@ -77,6 +77,15 @@ TreeMap.
 
 `chart-on` - An object, the property names of which are event names to respond to and the property values of which are event handler functions. The value must be inside "${ }" to tell the [`tlx`](https://github.com/anywhichway/tlx) engine to treat this as a JavaScript object, e.g. `chart-on="${{select: event => console.log(event)}}"`.
 
+## tlx-chart-editor
+
+A custom HTML element that renders a basic table to support user editing of the data associaed with a chart.
+
+### Attributes
+
+`for` - The DOM id of the chart associated with the editor.
+
+`validate-data` - A function that takes the data array as an argument and returns `true` if it is valid. If it returns a string, the string is displayed in a JavaScript alert box. If it returns and Error, the error is thrown.
 
 
 # More Reading
@@ -85,7 +94,7 @@ TreeMap.
 
 # Release History
 
-2018-12-09 v0.0.3b Documentation updates.
+2018-12-09 v0.0.3b Documentation updates. Added chart data editing.
 
 2018-12-08 v0.0.2b Re-implemented to support most recent version of tlx.
 

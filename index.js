@@ -21,7 +21,7 @@
 	"use strict"
 	class TlxChart extends HTMLElement {
 		static get observedAttributes() { 
-			return ["chart-columns","chart-editable","chart-data","chart-options","chart-on","chart-type"]; 
+			return ["chart-columns","chart-editable","chart-data","chart-options","chart-on","chart-type","style"]; 
 		}
 		constructor() {
 			super();
@@ -30,40 +30,47 @@
 		connectedCallback() {
 			const el = document.createElement("div");
 			el.id = Date.now()+(String(Math.random()).substring(2));
+			el.style = this.style.cssText;
 			this.appendChild(el);
 			tlx.view(this);
 			this.showChart();
 		}
-		attributeChangedCallback() {
+		attributeChangedCallback(name,oldValue,newValue) {
+			if(name==="style" && this.firstElementChild) this.firstElementChild.style = newValue;
 			if(this.isConnected) this.showChart();
 		}
 		showChart() {
 			TlxChart.loaded.then(() => {
-				const el = this.firstElementChild;
+				const el = this.firstElementChild,
+					dataTable = () => {
+						this.dataTable =  new google.visualization.arrayToDataTable(this.chartData,(this.chartColumns ? this.chartColumns.length>0 : false));
+						if(this.chartColumns) {
+							for(let column of this.chartColumns) {
+								if(typeof(column)==="object") {
+									this.dataTable.addColumn(column.type,column.label);
+								} else {
+									//this.dataTable.addColumn("string",column);
+								}
+							}
+						}
+						return this.dataTable;
+					};
 				!this.chartOptions.height || (el.style.height = this.chartOptions.height);
 				!this.chartOptions.width || (el.style.width = this.chartOptions.width);
-				this.dataTable =  new google.visualization.arrayToDataTable(this.chartData,(this.chartColumns ? this.chartColumns.length>0 : false));
-				if(this.chartColumns) {
-					for(let column of this.chartColumns) {
-						if(typeof(column)==="object") {
-							this.dataTable.addColumn(column.type,column.label);
-						} else {
-							//this.dataTable.addColumn("string",column);
-						}
-					}
-				}
 				this.chartWrapper = new google.visualization.ChartWrapper({
 					chartType: this.chartType || this.getAttribute("chart-type"),
-					dataTable: this.dataTable,
+					dataTable: dataTable(),
 					options: this.chartOptions,
 					containerId: el.id
 				});
 				if(this.hasAttribute("chart-editable")) {
-					let width,height;
+					let width = this.chartOptions.width || el.style.width,
+						height = this.chartOptions.height || el.style.height;
 					this.chartEditor = new google.visualization.ChartEditor();
 					google.visualization.events.addListener(this.chartEditor, "ok", () => {
 						this.chartWrapper = this.chartEditor.getChartWrapper(); 
 						this.chartEditor.closeDialog(); 
+						this.chartType = this.chartWrapper.getType();
 						this.chartWrapper.setOption("width",width);
 						this.chartWrapper.setOption("height",height);
 						this.chartWrapper.draw(); 
@@ -95,8 +102,83 @@
 			});
 		}
 	}
-	
 	TlxChart.create = tlx.component("tlx-chart",{customElement:TlxChart});
+	
+	class DataEditor extends HTMLElement {
+		static get observedAttributes() { 
+			return ["for","chart-types","validate-data","style"]; 
+		}
+		constructor() {
+			super();
+			
+		}
+		connectedCallback() {
+			const table = document.createElement("table"),
+				chart = this.chart;
+			table.style = this.style.cssText;
+			if(chart) {
+				const cols = chart.chartColumns,
+					data = chart.chartData;
+				let i = 0,
+					row = "<th></th>";
+				while(i<cols.length) {
+					row += `<th>${cols[i]}</th>`;
+					i++;
+				}
+				const thead = document.createElement("thead");
+				thead.innerHTML = row;
+				table.appendChild(thead);
+				const tbody = document.createElement("tbody");
+				data.forEach((item,index) => {
+					const trow = document.createElement("tr");
+					let i = 0;
+					trow.innerHTML = `<th>${index+1}</th>`;
+					while(i<cols.length) {
+						const index = i,
+							value = item[i],
+							type = typeof(value),
+							td = document.createElement("td"),
+							tvalue = document.createElement("input");
+						tvalue.value = ["boolean","number","string"].includes(type) ? value : "";
+						tvalue.onchange = event => {
+							item[index] =  type==="number" ? parseFloat(event.target.value) : type==="boolean" ? JSON.parse(event.target.value) : event.target.value;
+							if(this.chart.validateData) {
+								const valid = this.chart.validateData(data);
+								if(valid!==true) {
+									if(typeof(valid)==="string") alert(valid);
+									item[index] = value;
+									if(typeof(valid)==="object" && valid instanceof Error) throw valid;
+									return;
+								}
+							}
+							chart.showChart();
+						};
+						td.appendChild(tvalue);
+						trow.appendChild(td);
+						i++;
+					}
+					tbody.appendChild(trow);
+				});
+				table.appendChild(tbody);
+			}
+			this.appendChild(table);
+			tlx.view(this);
+		}
+		attributeChangedCallback(name,oldValue,newValue) {
+			if(name==="for") this.chart = document.getElementById(newValue);
+			if(name==="validate-data" && newValue) this.chart.validateData = Function("return " + newValue)();
+			if(name==="style" && this.firstElementChild) this.firstElementChild.style = newValue;
+			if(this.isConnected) { ; }
+		}
+		
+	}
+	DataEditor.create = tlx.component("tlx-chart-editor",{customElement:DataEditor})
+	
+	TlxChart.DataEditor = DataEditor;
+	
+	
+	
+	
 	TlxChart.loaded = new Promise(resolve => TlxChart.loader = resolve);
 	if(typeof(google)==="undefined" || !google.charts) {
 		document.write(`<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" onload="google.charts.load('current',{packages:['charteditor']});google.charts.setOnLoadCallback(() => TlxChart.loader(true))"><` + `/script>`);
