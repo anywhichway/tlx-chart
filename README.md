@@ -65,8 +65,8 @@ ComboChart,
 [LineChart](https://jsfiddle.net/anywhichway/u3Lmyjg0/),
 [OrgChart](https://jsfiddle.net/anywhichway/6nmLx8b7/),
 [PieChart](https://jsfiddle.net/anywhichway/vfL52j8d/),
-[ScatterChart](https://jsfiddle.net/anywhichway/6j7uh9df/)
-[Table](https://jsfiddle.net/anywhichway/x021fvtj/)
+[ScatterChart](https://jsfiddle.net/anywhichway/6j7uh9df/),
+[Table](https://jsfiddle.net/anywhichway/x021fvtj/),
 TreeMap.
 
 `chart-editable` - A unary attribute, which if present, provides an Edit button the end user can click on to invoke an editor to change the chart type or appearance such as font labels, etc. 
@@ -90,3 +90,7 @@ TreeMap.
 2018-12-08 v0.0.2b Re-implemented to support most recent version of tlx.
 
 2017-12-02 v0.0.1 ALPHA Initial public release
+
+# License
+
+MIT
