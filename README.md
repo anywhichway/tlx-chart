@@ -94,6 +94,8 @@ A custom HTML element that renders a basic table to support user editing of the 
 
 # Release History
 
+2018-12-09 v0.0.4b Documentation updates. Added chart data editing.
+
 2018-12-09 v0.0.3b Documentation updates. Added chart data editing.
 
 2018-12-08 v0.0.2b Re-implemented to support most recent version of tlx.
