@@ -48,11 +48,45 @@ You can create charts from JavaScript using the factory function `tlxChart.creat
 	document.body.appendChild(chart);
 ```
 
+# Element Specification
+
+## tlx-chart
+
+A custom HTML element with a [`tlx`](https://github.com/anywhichway/tlx) wrapper that renders Google Charts.
+
+### Attributes
+
+`chart-type` - In alphabetical order (click on the names for examples), one of:
+
+
+[BarChart](https://jsfiddle.net/anywhichway/jcpb1xkq/),
+[ColumnChart](https://jsfiddle.net/anywhichway/fo1jq6ae/),
+ComboChart
+[Gauge](https://jsfiddle.net/anywhichway/6nmLx8b7/),
+[LineChart](https://jsfiddle.net/anywhichway/u3Lmyjg0/)
+[OrgChart](https://jsfiddle.net/anywhichway/6nmLx8b7/),
+[PieChart](https://jsfiddle.net/anywhichway/vfL52j8d/),
+[ScatterChart](https://jsfiddle.net/anywhichway/6j7uh9df/)
+[Table](https://jsfiddle.net/anywhichway/x021fvtj/)
+TreeMap
+
+`chart-editable` - A unary attribute, which if present, provides an Edit button the end user can click on to invoke an editor to change the chart type or appearance such as font labels, etc. 
+
+`chart-columns` - An array of column names. The value must be inside "${ }" to tell the [`tlx`](https://github.com/anywhichway/tlx) engine to treat this as a JavaScript object, e.g. `chart-columns="${['Element','Percentage']}"`.
+
+`chart-data` - An array of arrays, one for each row of data being charted. The value must be inside "${ }" to tell the [`tlx`](https://github.com/anywhichway/tlx) engine to treat this as a JavaScript object, e.g. `chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}"`.
+
+`chart-on` - An object, the property names of which are event names to respond to and the property values of which are event handler functions. The value must be inside "${ }" to tell the [`tlx`](https://github.com/anywhichway/tlx) engine to treat this as a JavaScript object, e.g. `chart-on="${{select: event => console.log(event)}}"`.
+
+
+
 # More Reading
 
 [Charts and Gauges Without JavaScript](https://medium.com/@anywhichway/html-charts-without-javascript-760a6089bb91).
 
 # Release History
+
+2018-12-09 v0.0.3b Documentation updates.
 
 2018-12-08 v0.0.2b Re-implemented to support most recent version of tlx.
 
