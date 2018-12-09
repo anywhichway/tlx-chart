@@ -57,18 +57,17 @@ A custom HTML element with a [`tlx`](https://github.com/anywhichway/tlx) wrapper
 ### Attributes
 
 `chart-type` - In alphabetical order (click on the names for examples), one of:
-
-
 [BarChart](https://jsfiddle.net/anywhichway/jcpb1xkq/),
+BubbleChart,
 [ColumnChart](https://jsfiddle.net/anywhichway/fo1jq6ae/),
-ComboChart
-[Gauge](https://jsfiddle.net/anywhichway/6nmLx8b7/),
-[LineChart](https://jsfiddle.net/anywhichway/u3Lmyjg0/)
+ComboChart,
+[Gauge](https://jsfiddle.net/anywhichway/yv4tqL10/),
+[LineChart](https://jsfiddle.net/anywhichway/u3Lmyjg0/),
 [OrgChart](https://jsfiddle.net/anywhichway/6nmLx8b7/),
 [PieChart](https://jsfiddle.net/anywhichway/vfL52j8d/),
 [ScatterChart](https://jsfiddle.net/anywhichway/6j7uh9df/)
 [Table](https://jsfiddle.net/anywhichway/x021fvtj/)
-TreeMap
+TreeMap.
 
 `chart-editable` - A unary attribute, which if present, provides an Edit button the end user can click on to invoke an editor to change the chart type or appearance such as font labels, etc. 
 
