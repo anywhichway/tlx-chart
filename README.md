@@ -58,7 +58,7 @@ A custom HTML element with a [`tlx`](https://github.com/anywhichway/tlx) wrapper
 
 `chart-type` - In alphabetical order (click on the names for examples), one of:
 [BarChart](https://jsfiddle.net/anywhichway/jcpb1xkq/),
-BubbleChart,
+[BubbleChart](https://jsfiddle.net/anywhichway/yfdcn6mL/),
 [ColumnChart](https://jsfiddle.net/anywhichway/fo1jq6ae/),
 ComboChart,
 [Gauge](https://jsfiddle.net/anywhichway/yv4tqL10/),
@@ -77,6 +77,8 @@ TreeMap.
 
 `chart-on` - An object, the property names of which are event names to respond to and the property values of which are event handler functions. The value must be inside "${ }" to tell the [`tlx`](https://github.com/anywhichway/tlx) engine to treat this as a JavaScript object, e.g. `chart-on="${{select: event => console.log(event)}}"`.
 
+`defer` - A unary attribute that defers the first rendering of the chart until it is invoked by JavaScript. This is typically used when there is a lot of dynamic data that needs to assembled by JavaScript first. See the source of this [bubble chart example]((https://jsfiddle.net/anywhichway/yfdcn6mL/).
+
 ## tlx-chart-editor
 
 A custom HTML element that renders a basic table to support user editing of the data associaed with a chart.
@@ -85,7 +87,23 @@ A custom HTML element that renders a basic table to support user editing of the 
 
 `for` - The DOM id of the chart associated with the editor.
 
-`validate-data` - A function that takes the data array as an argument and returns `true` if it is valid. If it returns a string, the string is displayed in a JavaScript alert box. If it returns and Error, the error is thrown.
+`validate-data` - Typically, some column in the data will sum to a specific value, e.g. 100%, this function ensures the data meets the criteria prior to re-rendering the chart. The function you define that takes the arguments `(dataArray,event,view)`. It should return `true` if the data is valid and the chart will be re-rendered; otherwise, the chart is not re-rendered. If it returns a string, the string is displayed in a JavaScript alert box. If it returns an Error, the error is thrown.
+
+# Custom Editors
+
+With a little JavaScript and knowledge of [tlx](https://github.com/anywhichway/tlx), you can build a custom editor. See `configurable.html` in the examples directory or on [JSFiddle](https://jsfiddle.net/anywhichway/4ufgta7o/).
+
+#API
+
+It is also possible to create charts directly using JavaScript.
+
+## TlxChart
+
+`HTMLCustomElement TlxChart.create({attributes})` - The `attributes` is an object with properties the same name as the element attributes except camel cased, e.g. `chart-data` is `chartData`, and the values are JavaScript values, e.g.`"${[['Nitrogen',0.78],['Oxygen',0.21]]}"` is `[['Nitrogen',0.78],['Oxygen',0.21]]`. For non-string data, the returned custom element will have the attribute keys as properties rather than regular attributes retrievable via `getAttribute`.
+
+`HTMLCustomElement TlxChart.Editor.create({attributes})` - The `attributes` is an object with properties the same name as the element attributes except camel cased. For non-string data, the returned custom element will have the attribute keys as properties rather than regular attributes retrievable via `getAttribute`.
+
+More advanced use can be made by passing additional data, see the [tlx documentation](https://github.com/anywhichway/tlx) for more details.
 
 
 # More Reading
@@ -93,6 +111,10 @@ A custom HTML element that renders a basic table to support user editing of the 
 [Charts and Gauges Without JavaScript](https://medium.com/@anywhichway/html-charts-without-javascript-760a6089bb91).
 
 # Release History
+
+2018-12-10 v0.0.6 Documentation updates.
+
+2018-12-09 v0.0.5b Adjusted data editing validator.
 
 2018-12-09 v0.0.4b Documentation updates. Added chart data editing.
 

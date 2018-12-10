@@ -1,0 +1,17 @@
+<html>
+<head>
+<script src="../node_modules/tlx/browser/tlx.js"></script>
+<script src="../index.js"></script>
+
+</head>
+<body>
+<tlx-chart defer id="configurablechart" chart-type="${chartType}" chart-columns="${['Element','Percentage']}" chart-data="${[['Nitrogen',0.78],['Oxygen',0.21],['Other',0.01]]}"></tlx-chart>
+<form><select id="charttype" name="chartType"  value="${chartType}"><option>PieChart</option><option>BarChart</option></select></form>
+<!-- bind elements to same reactive model and auto link updates -->
+<script>
+const configurablechart = tlx.reactor({chartType:"PieChart"});
+tlx.view(document.getElementById("configurablechart"),{model:configurablechart});
+tlx.view(document.getElementById("charttype"),{model:configurablechart,linkModel:true});
+</script>
+</body>
+</html>

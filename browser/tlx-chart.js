@@ -104,7 +104,7 @@
 	}
 	TlxChart.create = tlx.component("tlx-chart",{customElement:TlxChart});
 	
-	class DataEditor extends HTMLElement {
+	class Editor extends HTMLElement {
 		static get observedAttributes() { 
 			return ["for","chart-types","validate-data","style"]; 
 		}
@@ -143,10 +143,9 @@
 						tvalue.onchange = event => {
 							item[index] =  type==="number" ? parseFloat(event.target.value) : type==="boolean" ? JSON.parse(event.target.value) : event.target.value;
 							if(this.chart.validateData) {
-								const valid = this.chart.validateData(data);
+								const valid = this.chart.validateData(data,event,this);
 								if(valid!==true) {
 									if(typeof(valid)==="string") alert(valid);
-									item[index] = value;
 									if(typeof(valid)==="object" && valid instanceof Error) throw valid;
 									return;
 								}
@@ -172,10 +171,9 @@
 		}
 		
 	}
-	DataEditor.create = tlx.component("tlx-chart-editor",{customElement:DataEditor})
+	Editor.create = tlx.component("tlx-chart-editor",{customElement:Editor})
 	
-	TlxChart.DataEditor = DataEditor;
-	
+	TlxChart.Editor = Editor;
 	
 	
 	
