@@ -106,7 +106,7 @@
 	
 	class Editor extends HTMLElement {
 		static get observedAttributes() { 
-			return ["for","chart-types","validate-data","style"]; 
+			return ["for","chart-types","validate-data","edit-columns","style",]; // put chart type top left corner
 		}
 		constructor() {
 			super();
@@ -115,47 +115,56 @@
 		connectedCallback() {
 			const table = document.createElement("table"),
 				chart = this.chart;
+			table.id = Date.now()+(String(Math.random()).substring(2));
+			Object.defineProperty(table,"showChart",{enumerable:false,configurable:true,writable:true,value:chartType => { !chartType || (chart.chartType=chartType); chart.showChart(); }});
 			table.style = this.style.cssText;
 			if(chart) {
-				const cols = chart.chartColumns,
-					data = chart.chartData;
-				let i = 0,
-					row = "<th></th>";
-				while(i<cols.length) {
-					row += `<th>${cols[i]}</th>`;
-					i++;
-				}
+				const data = chart.chartData,
+					edit = {};
+				chart.chartColumns.forEach((title,index) => edit[title] = {index});
+				if(Array.isArray(this.editColumns)) this.editColumns.forEach(title => !edit[title] || (edit[title].editable=true))
+			
 				const thead = document.createElement("thead");
-				thead.innerHTML = row;
+				let topleft = "<th></th>";
+				if(this.chartTypes) {
+					const options = this.chartTypes.reduce((accum,value) => accum += `<option>${value}</option>`,"")
+					topleft = `<th><select onchange="(event => document.getElementById('${table.id}').showChart(event.target.value))(event)">${options}</select></th>`
+				};
+				thead.innerHTML = Object.keys(edit).reduce((accum,title) => accum += `<th>${title}</th>`,topleft);
 				table.appendChild(thead);
 				const tbody = document.createElement("tbody");
 				data.forEach((item,index) => {
 					const trow = document.createElement("tr");
 					let i = 0;
 					trow.innerHTML = `<th>${index+1}</th>`;
-					while(i<cols.length) {
-						const index = i,
-							value = item[i],
+					Object.keys(edit).forEach(title => {
+						const index = edit[title].index,
+							value = item[index],
 							type = typeof(value),
-							td = document.createElement("td"),
+							td = document.createElement("td");
+						let tvalue;
+						if(edit[title].editable) {
 							tvalue = document.createElement("input");
-						tvalue.value = ["boolean","number","string"].includes(type) ? value : "";
-						tvalue.onchange = event => {
-							item[index] =  type==="number" ? parseFloat(event.target.value) : type==="boolean" ? JSON.parse(event.target.value) : event.target.value;
-							if(this.chart.validateData) {
-								const valid = this.chart.validateData(data,event,this);
-								if(valid!==true) {
-									if(typeof(valid)==="string") alert(valid);
-									if(typeof(valid)==="object" && valid instanceof Error) throw valid;
-									return;
+							tvalue.value = ["boolean","number","string"].includes(type) ? value : "";
+							tvalue.onchange = event => {
+								item[index] =  type==="number" ? parseFloat(event.target.value) : type==="boolean" ? JSON.parse(event.target.value) : event.target.value;
+								if(this.chart.validateData) {
+									const valid = this.chart.validateData(data,event,this);
+									if(valid!==true) {
+										if(typeof(valid)==="string") alert(valid);
+										if(typeof(valid)==="object" && valid instanceof Error) throw valid;
+										return;
+									}
 								}
+								chart.showChart();
 							}
-							chart.showChart();
-						};
+						} else {
+							tvalue = new Text();
+							tvalue.data = value;
+						}
 						td.appendChild(tvalue);
 						trow.appendChild(td);
-						i++;
-					}
+					});
 					tbody.appendChild(trow);
 				});
 				table.appendChild(tbody);
@@ -167,6 +176,8 @@
 			if(name==="for") this.chart = document.getElementById(newValue);
 			if(name==="validate-data" && newValue) this.chart.validateData = Function("return " + newValue)();
 			if(name==="style" && this.firstElementChild) this.firstElementChild.style = newValue;
+			if(name==="edit-columns") this.editColumns = tlx.resolve(newValue);
+			if(name==="chart-types") this.chartTypes = tlx.resolve(newValue);
 			if(this.isConnected) { ; }
 		}
 		

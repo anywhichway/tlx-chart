@@ -1,6 +1,6 @@
 {
   "name": "tlx-chart",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Charts and gauges without JavaScript ... well just a tiny bit.",
   "engines": {},
   "license": "MIT",

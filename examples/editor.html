@@ -14,6 +14,8 @@
 </tlx-chart>
 <tlx-chart-editor for="mypie" 
 	style="font-style:italic"
+	edit-columns="${['Percentage']}"
+	chart-types="${['PieChart','BarChart']}"
 	validate-data="data => data.reduce((accum,item) => accum += item[1],0)===1 || 'Percentage must equal 1.0'">
 </tlx-chart-editor>
 </body>

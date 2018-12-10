@@ -85,7 +85,11 @@ A custom HTML element that renders a basic table to support user editing of the 
 
 ### Attributes
 
-`for` - The DOM id of the chart associated with the editor.
+`for` - The DOM id of the chart associated with the editor. MUST BE FIRST ATTRIBUTE.
+
+`chart-types` - An array of valid chart types. Diplayed as a select box in the top left of the chart editor.
+
+`edit-columns` - An array of columns names to display for edit. If a column if not listed it is read-only.
 
 `validate-data` - Typically, some column in the data will sum to a specific value, e.g. 100%, this function ensures the data meets the criteria prior to re-rendering the chart. The function you define that takes the arguments `(dataArray,event,view)`. It should return `true` if the data is valid and the chart will be re-rendered; otherwise, the chart is not re-rendered. If it returns a string, the string is displayed in a JavaScript alert box. If it returns an Error, the error is thrown.
 
@@ -111,6 +115,8 @@ More advanced use can be made by passing additional data, see the [tlx documenta
 [Charts and Gauges Without JavaScript](https://medium.com/@anywhichway/html-charts-without-javascript-760a6089bb91).
 
 # Release History
+
+2018-12-11 v0.0.7 Added ability to specify `chart-types` and `edit-columns` for `tlx-chart-editor`.
 
 2018-12-10 v0.0.6 Documentation updates.
 
