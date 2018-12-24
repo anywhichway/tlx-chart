@@ -1,6 +1,6 @@
 {
   "name": "tlx-chart",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Charts and gauges without JavaScript ... well just a tiny bit.",
   "engines": {},
   "license": "MIT",
@@ -38,6 +38,6 @@
     "uglify-es": "^3.2.0"
   },
   "dependencies": {
-    "tlx": "^1.0.18"
+    "tlx": ">=1.0.26"
   }
 }

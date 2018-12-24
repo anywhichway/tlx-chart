@@ -116,6 +116,8 @@ More advanced use can be made by passing additional data, see the [tlx documenta
 
 # Release History
 
+2018-12-24 v0.0.8 Updated `tlx` dependency.
+
 2018-12-11 v0.0.7 Added ability to specify `chart-types` and `edit-columns` for `tlx-chart-editor`.
 
 2018-12-10 v0.0.6 Documentation updates.
