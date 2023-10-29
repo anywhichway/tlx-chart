@@ -1,5 +1,7 @@
 # tlx-chart
 
+This package has been deprecated in favor of [lazui](https://github.com/anywhichway/lazui).
+
 The module `tlx-chart` provides both a JavaScript component oriented and and reactive HTML custom element oriented [TLX](https://github.com/anywhichway/tlx) based wrapper for the [Google Charts library](https://developers.google.com/chart/). Although they have not all been tested yet, theoretically all charts in the [Google gallery](https://developers.google.com/chart/interactive/docs/gallery) should work.
 
 # Installation

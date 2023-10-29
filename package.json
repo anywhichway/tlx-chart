@@ -1,12 +1,9 @@
 {
   "name": "tlx-chart",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Charts and gauges without JavaScript ... well just a tiny bit.",
   "engines": {},
   "license": "MIT",
-  "scripts": {
-    "prepare": "cp index.js ./browser/tlx-chart.js && uglifyjs browser/tlx-chart.js -o browser/tlx-chart.min.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anywhichway/tlx-chart.git"
